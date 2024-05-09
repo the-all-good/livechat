@@ -6,6 +6,9 @@ use Livewire\Component;
 use App\Models\ChatLink;
 use App\Models\Messages;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Crypt;
 
 
 class Messenger extends Component
@@ -18,8 +21,12 @@ class Messenger extends Component
 
     public function getChat()
     {
-        $chat_link = ChatLink::where('session', session()->getId())->get('id')->first();
-        if($chat_link){
+        if(session()->get('chat_link') !== null){
+            $id = Crypt::decryptString(session()->get('chat_link'));
+            $chat_link = ChatLink::where('session', $id)->get('id')->first();
+        }
+
+        if(isset($chat_link)){
             return $chat_link;
         }
         return false;
@@ -37,8 +44,11 @@ class Messenger extends Component
             'message' => ['string', 'max:5000', 'required']
         ]);
 
+        $uuid = Str::uuid();
+        session(['chat_link' => Crypt::encryptString($uuid)]);
+
         $chat = ChatLink::create([
-            'session' => session()->getId(),
+            'session' => $uuid,
             'staff_id' => null,
             'email' => $validate['email'],
             'name' => $validate['name'],
@@ -76,11 +86,13 @@ class Messenger extends Component
 
     public function render()
     {
-        $chat_link = ChatLink::where('session', session()->getId())->get('id')->first();
+        $chat_link = $this->getChat();
+        
         if($chat_link){
-            $messages = Messages::where('chat_id', $chat_link['id'])->get('message');
+            $messages = Messages::where('chat_id', $chat_link['id'])->get(['message', 'staff_sent']);
             return view('livewire.messenger', ['messages' => $messages]);
         }
+
         return view('livewire.messenger');
     }
 }
