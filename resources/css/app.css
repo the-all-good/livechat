@@ -5,7 +5,7 @@
 
 .scroll-bar{
     display: block;
-    overflow: auto;
+    overflow-y: auto;
     margin: 1em auto;
 }
 

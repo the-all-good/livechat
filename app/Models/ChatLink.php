@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ChatLink extends Model
 {
@@ -20,4 +21,14 @@ class ChatLink extends Model
         'status',
         'staff_id'
     ];
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Messages::class, 'chat_id');
+    }
+
+    public function last_message()
+    {
+        return $this->messages->last();
+    }
 }

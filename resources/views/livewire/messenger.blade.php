@@ -1,9 +1,9 @@
 <div>
     <div class="text-white border-solid border-white">
-        Message areas
-        @if (isset($messages))
+        Message areas: {{ isset($chat) ? ucwords($chat->status) : ""}}
+        @if (isset($chat->messages))
         <div class="bg-white border-solid border-gray-500 rounded-md flex-col p-1 h-80 overflow-y-scroll scroll-bar snap-end overflow-auto break-message">
-            @foreach ($messages as $message)
+            @foreach ($chat->messages as $message)
 
                     <div class="bg-blue-400 rounded-xl p-1 px-2 w-fit m-1 max-w-3/5">
                         {{ $message['message'] }}
@@ -14,7 +14,7 @@
         @endif
     </div>
     <div>
-        @if (!isset($messages))
+        @if (!isset($chat))
             <form wire:submit="request">
                 <div>
                     <label for="email" class="dark:text-white">Email: </label>
