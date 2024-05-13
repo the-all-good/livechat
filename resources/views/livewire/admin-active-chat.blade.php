@@ -1,7 +1,7 @@
-<div class="dark:text-white h-screen flex grow flex-col w-auto m-2">
-    <div class="flex flex-col flex-grow h-full ">
-        <div class="text-white border-solid border-white grow h-full overflow-hidden">
-            <div class="bg-white border-solid border-gray-500 rounded-md flex-col h-full m-2 p-1 overflow-y-scroll scroll-bar snap-end overflow-auto break-message flex-grow">
+<div class="dark:text-white h-screen flex grow flex-col w-auto m-2 ">
+    <div class="flex flex-col h-screen">
+        <div class="border rounded-lg flex-1 bg-white overflow-scroll scroll-bar w-full">
+            <div class="mx-2 overflow-y-auto ">
             @if (isset($chat->messages))
                 @foreach ($chat->messages as $message)
 
@@ -14,12 +14,12 @@
             </div>
 
         </div>
-        <div>
-            <form wire:submit="send_message">
+        <div class="mb-2">
+            <form wire:submit="send_message" class="flex grow w-full">
             @csrf
-            <div class="rounded-lg bg-white flex justify-between m-2">
+            <div class="rounded-lg bg-white flex justify-between my-2 w-full">
                 <input type="text" wire:model.change="message" placeholder="Type a message..." class="rounded-l-lg border-none grow break-words peer focus:ring-transparent">
-                <button type="submit" class="text-black bg-white p-2 rounded-r-lg hover:underline hover:text-white hover:bg-blue-400 hover:font-bold cursor-pointer w-fit focus:outline-none">
+                <button type="submit" class="text-black bg-white p-2 rounded-r-lg hover:underline hover:text-white hover:bg-blue-400 hover:font-bold cursor-pointer focus:outline-none">
                     Send
                 </button>
             </div>

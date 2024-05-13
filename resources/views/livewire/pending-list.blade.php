@@ -1,8 +1,7 @@
 <div class="dark:text-white overflow-y-scroll overflow-x-hidden scroll-bar w-fit">
-
         @foreach ($pending as $pendingChat)
         
-            <div class="border-2 border-black border-solid bg-slate-200 text-black overflow-ellipsis w-full p-1">
+            <div class="border-2 border-black border-solid bg-slate-200 text-black overflow-ellipsis w-full p-1 flex flex-col text-left">
                 <button type="button" wire:click="monitor({{ $pendingChat->id }})">
                     {{ $pendingChat['name']}}: {{ $pendingChat['email']}}
                     <br>
@@ -16,5 +15,4 @@
             </div>
 
         @endforeach
-
 </div>
