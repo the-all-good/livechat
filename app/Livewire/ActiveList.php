@@ -8,6 +8,20 @@ use App\Models\ChatLink;
 
 class ActiveList extends Component
 {
+    public function getListeners()
+    {
+        return [
+            // Public Channel
+            "echo:message-change,.message-change" => 'render',
+ 
+            // Private Channel
+
+ 
+            // Presence Channel
+
+        ];
+    }
+
     public function getActive()
     {
         $active = ChatLink::where('status', ChatLink::STATUS_ACTIVE)->get();
@@ -24,6 +38,11 @@ class ActiveList extends Component
             $chat->save();
         }
         $this->dispatch('chat-change');
+    }
+
+    public function monitor(ChatLink $chat): void
+    {
+        $this->dispatch('view-chat', chat: $chat);
     }
 
     #[On('chat-change')]

@@ -5,12 +5,23 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\ChatLink;
 use App\Events\MessageEvent;
+use Livewire\Attributes\On; 
 
 class PendingList extends Component
 {
-    protected $listeners = [
-        'echo:message-change:MessageEvent' => 'render'
-    ];
+    public function getListeners()
+    {
+        return [
+            // Public Channel
+            "echo:message-change,.message-change" => 'render',
+ 
+            // Private Channel
+
+ 
+            // Presence Channel
+
+        ];
+    }
 
     public function getPending()
     {
@@ -21,25 +32,29 @@ class PendingList extends Component
         return false;
     }
 
-    public function accept(ChatLink $chat)
+    public function accept(ChatLink $chat): void
     {
         if($chat->status == ChatLink::STATUS_PENDING){
             $chat->status = ChatLink::STATUS_ACTIVE;
             $chat->save();
         }
-        $this->dispatch('chat-change');
+        MessageEvent::dispatch('accepted');
     }
 
-    public function close(ChatLink $chat)
+    public function close(ChatLink $chat): void
     {
         if($chat->status == ChatLink::STATUS_PENDING){
             $chat->status = ChatLink::STATUS_COMPLETE;
             $chat->save();
         }
-        $this->dispatch('chat-change');
+        MessageEvent::dispatch('closed');
     }
 
-    #[On('echo:message-change,MessageEvent')]
+    public function monitor(ChatLink $chat): void
+    {
+        $this->dispatch('view-chat', chat: $chat);
+    }
+
     public function render()
     {
         if($this->getPending()){

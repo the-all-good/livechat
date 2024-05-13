@@ -11,7 +11,7 @@
                 <livewire:pending-list />
             </div>
         </div>
-        <div class="flex-grow">
+        <div class="flex flex-grow h-full overflow-hidden">
             <livewire:admin-active-chat />
         </div>
     </div>

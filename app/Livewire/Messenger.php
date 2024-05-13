@@ -73,6 +73,8 @@ class Messenger extends Component implements ShouldBroadcast
             'message' => $validate['message'],
         ]);
 
+        MessageEvent::dispatch($validate['message']);
+
         $this->reset('message');
 
         return view('livewire.messenger');
@@ -92,7 +94,7 @@ class Messenger extends Component implements ShouldBroadcast
             'message' => $validate['message'],
         ]);
 
-        event(new MessageEvent);
+        MessageEvent::dispatch($validate['message']);
 
         $this->reset('message');
 
