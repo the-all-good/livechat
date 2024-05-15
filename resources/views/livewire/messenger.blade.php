@@ -4,11 +4,15 @@
         @if (isset($chat->messages))
         <div class="bg-white border-solid border-gray-500 rounded-md flex-col p-1 h-80 overflow-y-scroll scroll-bar snap-end overflow-auto break-message">
             @foreach ($chat->messages as $message)
-
-                    <div class="bg-blue-400 rounded-xl p-1 px-2 w-fit m-1 max-w-3/5">
-                        {{ $message['message'] }}
+                @if ($message->staff_sent)
+                    <div class="w-full flex justify-end">
+                @else
+                    <div class="w-full flex justify-start">
+                @endif
+                        <div class="bg-blue-400 rounded-xl p-1 px-2 w-fit m-1 max-w-3/5">
+                            {{ $message['message'] }}
+                        </div>
                     </div>
-
             @endforeach
         </div>
         @endif

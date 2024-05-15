@@ -5,7 +5,7 @@
                 <button type="button" wire:click="monitor({{ $activeChat->id}})">
                         {{ $activeChat['name']}}: {{ $activeChat['email']}}
                         <br>
-                        <p class="italic">
+                        <p class="italic overflow-ellipsis">
                         "{{ $activeChat->last_message()->message }}"
                         </p>
                         

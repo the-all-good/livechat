@@ -13,7 +13,8 @@ class Messages extends Model
 
     protected $fillable = [
         'chat_id',
-        'message'
+        'message',
+        'staff_sent',
     ];
 
     public function ChatLink(): BelongsTo

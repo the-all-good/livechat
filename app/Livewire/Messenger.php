@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\ChatLink;
 use App\Models\Messages;
 use App\Events\MessageEvent;
+use App\Events\PrivateMessage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -17,7 +18,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 
 
-class Messenger extends Component implements ShouldBroadcast
+class Messenger extends Component
 {   
     public $message = "";
 
@@ -25,11 +26,14 @@ class Messenger extends Component implements ShouldBroadcast
 
     public $email = "";
 
-    public function broadcastOn(): array
+    public function getListeners()
     {
-        return [
-            new PrivateChannel()
+        $listeners = [
+            // Public Channel
+            "echo:message-change,.message-change" => 'render',            
         ];
+
+        return $listeners;
     }
 
     public function getChat()
@@ -94,7 +98,7 @@ class Messenger extends Component implements ShouldBroadcast
             'message' => $validate['message'],
         ]);
 
-        MessageEvent::dispatch($validate['message']);
+        MessageEvent::dispatch('hidden');
 
         $this->reset('message');
 

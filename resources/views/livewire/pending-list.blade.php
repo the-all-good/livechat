@@ -5,7 +5,7 @@
                 <button type="button" wire:click="monitor({{ $pendingChat->id }})">
                     {{ $pendingChat['name']}}: {{ $pendingChat['email']}}
                     <br>
-                    <p class="italic">
+                    <p class="italic overflow-ellipsis">
                     "{{ $pendingChat->last_message()->message }}"
                     </p>
 
