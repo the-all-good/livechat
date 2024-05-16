@@ -36,6 +36,7 @@ class PendingList extends Component
     {
         if($chat->status == ChatLink::STATUS_PENDING){
             $chat->status = ChatLink::STATUS_ACTIVE;
+            $chat->staff_id = auth()->user()->id;
             $chat->save();
         }
         MessageEvent::dispatch('accepted');

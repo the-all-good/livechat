@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\ChatLink;
+use App\Events\MessageEvent;
 
 class ActiveList extends Component
 {
@@ -31,13 +32,13 @@ class ActiveList extends Component
         return false;
     }
 
-    public function close(ChatLink $chat)
+    public function close(ChatLink $chat): void
     {
         if($chat->status == ChatLink::STATUS_ACTIVE){
             $chat->status = ChatLink::STATUS_COMPLETE;
             $chat->save();
         }
-        $this->dispatch('chat-change');
+        MessageEvent::dispatch('closed');
     }
 
     public function monitor(ChatLink $chat): void

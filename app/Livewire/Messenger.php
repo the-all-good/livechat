@@ -77,7 +77,7 @@ class Messenger extends Component
             'message' => $validate['message'],
         ]);
 
-        MessageEvent::dispatch($validate['message']);
+        MessageEvent::dispatch('hidden');
 
         $this->reset('message');
 
