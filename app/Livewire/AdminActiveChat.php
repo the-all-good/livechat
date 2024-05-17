@@ -44,6 +44,12 @@ class AdminActiveChat extends Component
             'staff_sent' => 1,
         ]);
 
+        if ($this->chat->status === ChatLink::STATUS_PENDING) {
+            $this->chat->status = ChatLink::STATUS_ACTIVE;
+            $this->chat->staff_id = auth()->user()->id;
+            $this->chat->save();
+        }
+
         MessageEvent::dispatch('hidden');
 
         $this->reset('message');

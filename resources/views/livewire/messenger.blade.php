@@ -1,7 +1,7 @@
 <div>
     <div class="text-white border-solid border-white">
         Chat Status: {{ isset($chat) ? ucwords($chat->status) : "Not Connected"}} <br>
-        Agent: {{ isset($chat) ? ucwords($chat->staff->name) : "No Agent" }}
+        Agent: {{ isset($chat->staff) ? ucwords($chat->staff->name) : "No Agent" }}
         @if (isset($chat->messages))
         <div class="bg-white border-solid border-gray-500 rounded-md flex-col p-1 h-80 overflow-y-scroll scroll-bar snap-end overflow-auto break-message">
             @foreach ($chat->messages as $message)
